@@ -1,6 +1,6 @@
 {
   "name": "olum-devtool",
-  "version": "0.1.2",
+  "version": "0.1.3",
   "description": "A development tool for olumjs projects",
   "main": "dist/olum-devtool.js",
   "directories": {
@@ -30,9 +30,13 @@
     "@babel/core": "^7.14.6",
     "@babel/preset-env": "^7.14.7",
     "gulp": "^4.0.2",
+    "gulp-autoprefixer": "^8.0.0",
     "gulp-babel": "^8.0.0",
     "gulp-concat": "^2.6.1",
+    "gulp-cssnano": "^2.1.3",
     "gulp-header": "^2.0.9",
-    "gulp-uglify": "^3.0.2"
+    "gulp-sass": "^5.0.0",
+    "gulp-uglify": "^3.0.2",
+    "sass": "^1.43.4"
   }
 }

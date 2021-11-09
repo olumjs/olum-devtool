@@ -1,6 +1,6 @@
 /**
  * @name olum-devtool.js
- * @version 0.1.2
+ * @version 0.1.3
  * @copyright 2021
  * @author Eissa Saber
  * @license MIT
@@ -21,7 +21,8 @@ export default class DevTool {
 
   constructor() {
     this.olumVer = "{{olumVer}}";
-    this.appMarkup = document.querySelector("{{selector}}");
+    this.selector = "{{olumSelector}}";
+    this.appMarkup = document.querySelector(this.selector);
     this.render();
   }
 
@@ -34,251 +35,13 @@ export default class DevTool {
           <span class="DevTool__header__version"><i>detected</i> olum@${this.olumVer}</span>
         </div>
         <div class="DevTool__body">${this.root()}</div>
-        <style>${this.style()}</style>
       </div>
       <div class="DevTool__layer"><span></span></div>
     `;
   }
 
-  style() {
-    return `
-      .DevTool {
-        box-sizing: border-box;
-        font-family: Helvetica, Arial, sans-serif;
-        user-select: none;
-        color: #333;
-        position: fixed;
-        background: white;
-        border-radius: 5px;
-        box-shadow: 0 0 3px 1px rgba(0, 0, 0, 0.1);
-        z-index: 999;
-      }
-      .DevTool button {
-        padding: 0;
-      }
-      .DevTool__header {
-        width: 100%;
-        height: 40px;
-        border-bottom: 1px solid #dfdfe0;
-        background: #f5f5f5;
-        border-radius: 5px 5px 0 0;
-      }
-      .DevTool__header:active {
-        cursor: grab;
-      }
-      .DevTool__header__logo {
-        float: left;
-        height: 25px;
-        width: 25px;
-        vertical-align: bottom;
-        margin: 7.5px;
-        pointer-events: none;
-      }
-      .DevTool__header__logo svg {
-        width: 100%;
-        height: 100%;
-      }
-      .DevTool__header__version {
-        float: left;
-        height: 25px;
-        margin: 7.5px 0;
-        pointer-events: none;
-        line-height: 25px;
-        font-size: 0.9rem;
-        color: #666666;
-        font-weight: bold;
-      }
-      .DevTool__header__version i {
-        color: #6557e0;
-        font-style: normal;
-      }
-      .DevTool__header--closeBtn {
-        float: right;
-        width: 40px;
-        height: 40px;
-        line-height: 40px;
-        text-align: center;
-        font-size: 1.2rem;
-        cursor: pointer;
-        background: transparent;
-        border: none;
-        outline: none;
-      }
-      .DevTool__body {
-        overflow: auto;
-        max-height: 200px;
-        margin: 5px 0 5px 5px;
-        padding-right: 5px;
-      }
-      .DevTool__body::-webkit-scrollbar {
-        width: 4px;
-      }
-      .DevTool__body::-webkit-scrollbar-thumb {
-        box-shadow: none;
-        background: #6557e0;
-        border-radius: 5px;
-      }
-      .DevTool__body::-webkit-scrollbar-track {
-        box-shadow: none;
-        background: #eee;
-        border-radius: 5px;
-      }
-      .DevTool__body__root {
-        overflow: hidden;
-      }
-      .DevTool__body__root [olum-component] {
-        padding-left: 20px;
-        padding-top: 5px;
-        /* reset */
-        display: block;
-        height: auto !important;
-        background: transparent !important;
-      }
-      .DevTool__body__root [olum-component]:first-of-type {
-        padding: 0;
-      }
-      .DevTool__body__root .line {
-        cursor: pointer;
-        position: relative;
-        padding: 0 30px;
-        padding-right: 56px;
-        overflow: hidden;
-      }
-      .DevTool__body__root .line span {
-        pointer-events: none;
-        float: left;
-        height: 30px;
-        line-height: 30px;
-        font-weight: bold;
-      }
-      .DevTool__body__root .line .chars {
-        color: #c1c1c1;
-      }
-      .DevTool__body__root .line .name {
-        color: #6557e0;
-        margin: 0 1px;
-        letter-spacing: 0.4px;
-      }
-      .DevTool__body__root .line .view {
-        background: #fc4055;
-        padding: 0 5px;
-        border-radius: 5px;
-        color: white;
-        height: 22px;
-        line-height: 22px;
-        margin: 4px 0 4px 10px;
-        font-size: 15px;
-      }
-      .DevTool__body__root .line .scroll {
-        width: 25px;
-        height: 25px;
-        line-height: 25px;
-        text-align: center;
-        cursor: pointer;
-        background: transparent;
-        border: none;
-        outline: none;
-        position: absolute;
-        right: 17px;
-        top: 2.5px;
-      }
-      .DevTool__body__root .line .scroll svg {
-        pointer-events: none;
-        width: 100%;
-        height: 100%;
-        fill: #8a898b;
-      }
-      .DevTool__body__root .line:after {
-        content: "";
-        position: absolute;
-        width: 100%;
-        height: 100%;
-        top: 0;
-        left: 0;
-        background: #6557e0;
-        z-index: -1;
-        border-radius: 5px;
-        opacity: 0;
-        transition: 0.1s all ease;
-      }
-      .DevTool__body__root .line:hover:after {
-        opacity: 1;
-      }
-      .DevTool__body__root .line:hover .name,
-      .DevTool__body__root .line:hover .chars {
-        color: white;
-      }
-      .DevTool__body__root .line:hover .scroll svg {
-        fill: white;
-      }
-      .DevTool__body__root .caret [olum-component] {
-        display: none;
-      }
-      .DevTool__body__root .caret.active > [olum-component] {
-        display: block;
-      }
-      .DevTool__body__root .caret > .line::before {
-        position: absolute;
-        top: 50%;
-        left: 11px;
-        content: "";
-        border: 5px solid transparent;
-        border-left-color: #666;
-        border-left-width: 8px;
-        transition: 0.1s all ease-in-out;
-        transform-origin: top left;
-        transform: translateY(-50%);
-        pointer-events: none;
-      }
-      .DevTool__body__root .caret.active > .line::before {
-        transform: rotate(90deg) translateY(-50%);
-        left: 15px;
-        margin-top: -4px;
-      }
-      .DevTool__layer {
-        background: repeating-linear-gradient(45deg, rgba(255, 255, 255, 0.5), rgba(255, 255, 255, 0.5) 10px, rgba(198, 228, 255, 0.5) 10px, rgba(198, 228, 255, 0.5) 20px);
-        border: 1px dashed #2196f3;
-        position: fixed;
-        z-index: 1;
-        justify-content: center;
-        align-items: center;
-        display: none;
-        box-sizing: border-box;
-        font-family: Helvetica, Arial, sans-serif;
-        user-select: none;
-        flex-flow: column nowrap;
-        place-content: center;
-        align-items: center;
-      }
-      .DevTool__layer span {
-        position: relative;
-        background: #66b8ff;
-        padding: 5px 20px;
-        border-radius: 5px;
-        color: white;
-        letter-spacing: 0.4px;
-        font-weight: bold;
-      }
-      .DevTool__layer span::before,
-      .DevTool__layer span::after {
-        position: absolute;
-        top: 50%;
-        color: white;
-        transform: translateY(-50%);
-      }
-      .DevTool__layer span::before {
-        content: "\\003C";
-        left: 8px;
-      }
-      .DevTool__layer span::after {
-        content: "\\003E";
-        right: 8px;
-      }
-    `;
-  }
-
   render() {
-    this.global.devtool = this.devtool.bind(this);
+    this.global.olumDevtool = this.devtool.bind(this);
   }
 
   removeDevtool(btn, template, layer) {
@@ -323,6 +86,7 @@ export default class DevTool {
   }
 
   devtool() {
+    if (!this.appMarkup) return console.warn("olum-devtool - couldn't find application root element via this selector '" + this.selector + "' !");
     let template = document.querySelector(".DevTool");
     if (!template) {
       document.body.insertAdjacentHTML("beforeend", this.template());
