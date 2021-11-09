@@ -1,6 +1,6 @@
 {
   "name": "olum-devtool",
-  "version": "0.1.0",
+  "version": "0.1.2",
   "description": "A development tool for olumjs projects",
   "main": "dist/olum-devtool.js",
   "directories": {

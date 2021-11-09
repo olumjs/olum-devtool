@@ -1,6 +1,6 @@
 /**
- * @name Devtool.js
- * @version 0.1.0
+ * @name olum-devtool.js
+ * @version 0.1.2
  * @copyright 2021
  * @author Eissa Saber
  * @license MIT
@@ -20,9 +20,8 @@ export default class DevTool {
   eye = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 576 512"><path d="M572.52 241.4C518.29 135.59 410.93 64 288 64S57.68 135.64 3.48 241.41a32.35 32.35 0 0 0 0 29.19C57.71 376.41 165.07 448 288 448s230.32-71.64 284.52-177.41a32.35 32.35 0 0 0 0-29.19zM288 400a144 144 0 1 1 144-144 143.93 143.93 0 0 1-144 144zm0-240a95.31 95.31 0 0 0-25.31 3.79 47.85 47.85 0 0 1-66.9 66.9A95.78 95.78 0 1 0 288 160z"/></svg>`;
 
   constructor() {
-    const obj = this.global.olumDevtool;
-    this.appMarkup = document.querySelector(obj.selector);
-    this.rootCompName = obj.rootCompName;
+    this.olumVer = "{{olumVer}}";
+    this.appMarkup = document.querySelector("{{selector}}");
     this.render();
   }
 
@@ -32,6 +31,7 @@ export default class DevTool {
         <div class="DevTool__header">
           <button type="button" class="DevTool__header--closeBtn">&#10005;</button>
           <span class="DevTool__header__logo">${this.logo}</span>
+          <span class="DevTool__header__version"><i>detected</i> olum@${this.olumVer}</span>
         </div>
         <div class="DevTool__body">${this.root()}</div>
         <style>${this.style()}</style>
@@ -48,7 +48,6 @@ export default class DevTool {
         user-select: none;
         color: #333;
         position: fixed;
-        min-width: 320px;
         background: white;
         border-radius: 5px;
         box-shadow: 0 0 3px 1px rgba(0, 0, 0, 0.1);
@@ -78,6 +77,20 @@ export default class DevTool {
       .DevTool__header__logo svg {
         width: 100%;
         height: 100%;
+      }
+      .DevTool__header__version {
+        float: left;
+        height: 25px;
+        margin: 7.5px 0;
+        pointer-events: none;
+        line-height: 25px;
+        font-size: 0.9rem;
+        color: #666666;
+        font-weight: bold;
+      }
+      .DevTool__header__version i {
+        color: #6557e0;
+        font-style: normal;
       }
       .DevTool__header--closeBtn {
         float: right;
@@ -300,7 +313,7 @@ export default class DevTool {
       const lt = `<span class="chars">&lt;</span>`;
       const gt = `<span class="chars">&gt;</span>`;
       const name = `<span class="name">${comp.getAttribute("olum-component")}</span>`;
-      const view = comp.getAttribute("router-view") ? `<span class="view">router-view</span>` : "";
+      const view = comp.getAttribute("olum-view") ? `<span class="view">view</span>` : "";
       const scroll = `<button type="button" class="scroll" data-name="${comp.getAttribute("olum-component")}">${this.eye}</button>`;
       const line = `<div class="line">${lt + name + gt + view + scroll}</div>`;
       comp.insertAdjacentHTML("afterbegin", line);
